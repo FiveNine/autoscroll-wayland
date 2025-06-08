@@ -1,0 +1,46 @@
+post_install() {
+    echo "Adding user to input group for ydotool access..."
+    sudo usermod -aG input $(whoami) >/dev/null 2>&1
+    
+    USER_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/autoscroll.conf"
+    if [ ! -f "$USER_CONFIG" ]; then
+        echo "Creating user configuration template..."
+        mkdir -p "${XDG_CONFIG_HOME:-$HOME/.config}"
+        cp /etc/autoscroll/autoscroll.conf.example "$USER_CONFIG"
+    fi
+    
+    echo "Generating sxhkd configuration..."
+    /etc/autoscroll/generate-sxhkdrc > /etc/autoscroll/sxhkdrc
+    
+    echo "Enabling autoscroll at login..."
+    mkdir -p ~/.config/autostart
+    ln -sf /etc/autoscroll/autoscroll.desktop ~/.config/autostart/
+    
+    echo "----------------------------------------------------------"
+    echo "Autoscroll installed! IMPORTANT:"
+    echo "1. LOG OUT AND BACK IN for changes to take effect"
+    echo "2. Configuration file: $USER_CONFIG"
+    echo "3. Middle mouse button triggers autoscrolling"
+    echo "4. Default toggle key: F8 (customize in config)"
+    echo "----------------------------------------------------------"
+}
+
+post_upgrade() {
+    # Preserve user config during upgrades
+    USER_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/autoscroll.conf"
+    if [ -f "$USER_CONFIG" ]; then
+        echo "Preserving user configuration..."
+        TEMP_CONF=$(mktemp)
+        cp "$USER_CONFIG" "$TEMP_CONF"
+        post_install
+        cp "$TEMP_CONF" "$USER_CONFIG"
+        rm "$TEMP_CONF"
+    else
+        post_install
+    fi
+}
+
+pre_remove() {
+    echo "Removing autostart entry..."
+    rm -f ~/.config/autostart/autoscroll.desktop 2>/dev/null
+}

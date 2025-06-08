@@ -1,0 +1,17 @@
+# ~/.config/autoscroll.conf
+# Uncomment and modify values to customize behavior
+
+# Disable middle mouse paste? (1 = yes, 0 = no)
+#DISABLE_MIDDLE_PASTE=1
+
+# Scroll speed multiplier (default 2)
+#SCROLL_SPEED=2
+
+# Enable vertical scrolling? (1 = yes, 0 = no)
+#ENABLE_VERTICAL=1
+
+# Enable horizontal scrolling? (1 = yes, 0 = no)
+#ENABLE_HORIZONTAL=1
+
+# Toggle key binding (sxhkd format)
+#TOGGLE_KEY=F8
