@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Autoscroll Service
+Comment=System-wide autoscrolling for Wayland
+Exec=/usr/bin/sxhkd -c /etc/autoscroll/sxhkdrc
+Terminal=false
+X-GNOME-Autostart-enabled=true
