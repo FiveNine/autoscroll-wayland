@@ -1,0 +1,16 @@
+#!/bin/bash
+# This will be dynamically generated during installation
+
+# Load user configuration
+USER_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/autoscroll.conf"
+[ -f "$USER_CONFIG" ] && source "$USER_CONFIG"
+
+# Set default toggle key
+TOGGLE_KEY=${TOGGLE_KEY:-F8}
+
+# Generate config
+echo "$TOGGLE_KEY
+    /usr/bin/autoscroll-toggle
+
+~button2
+    /usr/bin/autoscroll"
